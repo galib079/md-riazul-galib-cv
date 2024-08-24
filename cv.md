@@ -1,7 +1,6 @@
 # Md Riazul Galib Niloy
 
-**Electrical Engineering Student | Dedicated to Coding, Problem Solving, and Programming Excellence | Rajshahi University of Engineering and Technology**  
-Rajshahi, Bangladesh
+**Electrical Engineering Student | Dedicated to Coding, Problem Solving, and Programming Excellence |
 
 ---
 
