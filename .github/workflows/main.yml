@@ -21,8 +21,8 @@ jobs:
 
     - name: Commit and Push PDF
       run: |
-        git config --global user.email "you@example.com"
-        git config --global user.name "Your Name"
+        git config --global user.email "niloygalib@gmail.com"
+        git config --global user.name "galib079"
         git add cv.pdf
         git commit -m "Update CV"
         git push
