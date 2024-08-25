@@ -1,9 +1,9 @@
-name: Generate PDF from LaTeX
+name: Build CV
 
 on:
   push:
-    paths:
-      - "cv.tex"  # Trigger the workflow when cv.tex is updated
+    branches:
+      - main
 
 jobs:
   build:
@@ -11,26 +11,16 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
-    
-      - name: Set up LaTeX
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y texlive-full
+    - name: Install LaTeX
+      run: sudo apt-get update && sudo apt-get install -y texlive-full
 
-      - name: Compile LaTeX document
-        run: |
-          pdflatex cv.tex
+    - name: Compile LaTeX to PDF
+      run: pdflatex cv.tex
 
-    - name: Upload PDF artifact
-      uses: actions/upload-artifact@v2
+    - name: Upload PDF as Artifact
+      uses: actions/upload-artifact@v3
       with:
-        name: cv.pdf
+        name: cv-pdf
         path: cv.pdf
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./  
