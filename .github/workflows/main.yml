@@ -1,15 +1,12 @@
-name: Build and Publish CV
-
-on:
-  push:
-    branches:
-      - main
-
+name: Build LaTeX document
+on: [push]
 jobs:
-  build:
+  build_latex:
     runs-on: ubuntu-latest
-
     steps:
-    - name: LaTeX Action
-      uses: fudan-mse/latex-action@v0.0.1
-            
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: cv.tex
