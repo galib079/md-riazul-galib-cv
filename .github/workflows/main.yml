@@ -19,8 +19,13 @@ jobs:
     - name: Compile LaTeX to PDF
       run: pdflatex cv.tex
 
-    - name: Upload PDF as Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: cv-pdf
-        path: cv.pdf
+    - name: Move PDF to Root Directory
+      run: mv cv.pdf .
+
+    - name: Commit and Push PDF
+      run: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+        git add cv.pdf
+        git commit -m "Update CV"
+        git push
