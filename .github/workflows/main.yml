@@ -1,9 +1,9 @@
-name: Build CV
+name: Generate PDF from LaTeX
 
 on:
   push:
-    branches:
-      - main
+    paths:
+      - "cv.tex"  # Trigger the workflow when cv.tex is updated
 
 jobs:
   build:
@@ -11,22 +11,23 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
-    - name: Install LaTeX
-      run: sudo apt-get update && sudo apt-get install -y texlive-full
+    - name: Set up LaTeX
+      uses: dante-ev/latex-action@v2
 
-    - name: Compile LaTeX to PDF
-      run: pdflatex cv.tex
-
-    - name: Commit and Push PDF
-      env:
-        GIT_USER: "galib079"
-        GIT_EMAIL: "niloygalib@gmail.com"
-        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+    - name: Compile LaTeX document
       run: |
-        git config --global user.email "${GIT_EMAIL}"
-        git config --global user.name "${GIT_USER}"
-        git add cv.pdf
-        git commit -m "Update CV"
-        git push https://${PAT_TOKEN}@github.com/galib079/md-riazul-galib-cv.git HEAD:main
+        latexmk -pdf -interaction=nonstopmode cv.tex
+
+    - name: Upload PDF artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: cv.pdf
+        path: cv.pdf
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./  
