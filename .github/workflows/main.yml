@@ -13,19 +13,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install LaTeX
-      run: sudo apt-get update && sudo apt-get install -y texlive-full
-
     - name: Compile LaTeX to PDF
       run: pdflatex cv.tex
 
-    - name: Move PDF to Root Directory
-      run: mv cv.pdf .
-
     - name: Commit and Push PDF
       run: |
-        git config --global user.email "you@example.com"
-        git config --global user.name "Your Name"
+        git config --global user.email "niloygalib@gmail.com"
+        git config --global user.name "galib079"
         git add cv.pdf
         git commit -m "Update CV"
         git push
