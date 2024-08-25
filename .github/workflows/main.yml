@@ -1,4 +1,4 @@
-name: Build CV
+name: Build and Publish CV
 
 on:
   push:
@@ -24,3 +24,12 @@ jobs:
       with:
         name: cv-pdf
         path: cv.pdf
+
+    - name: Deploy to GitHub Pages
+      if: success()
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        destination_dir: .
+        keep_files: true
