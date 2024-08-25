@@ -10,25 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
-    - name: Install LaTeX
-      run: sudo apt-get update && sudo apt-get install -y texlive-full
-
-    - name: Setup SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-
-    - name: Build CV
-      run: |
-        pdflatex cv.tex
-
-    - name: Deploy CV to gh-pages
-      run: |
-        git config --global user.email "niloygalib@gmail.com"
-        git config --global user.name "galib079"
-        git add cv.pdf
-        git commit -m "Update CV"
-        git push origin gh-pages
+    - name: LaTeX Action
+      uses: fudan-mse/latex-action@v0.0.1
+            
