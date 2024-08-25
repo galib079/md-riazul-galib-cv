@@ -20,6 +20,10 @@ jobs:
         with:
           name: thesis
           path: out/thesis.pdf
+      - name: Run make4ht 
+        uses: docker://ghcr.io/michal-h21/make4ht-action:latest 
+        env: 
+          command: "make4ht -u -d out cv.tex" 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
