@@ -1,4 +1,4 @@
-name: Build and Publish CV
+name: Publish PDF
 
 on:
   push:
@@ -10,26 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v2
 
-    - name: Install LaTeX
-      run: sudo apt-get update && sudo apt-get install -y texlive-full
+    - name: Set up LaTeX
+      run: sudo apt-get install -y texlive-full
 
-    - name: Compile LaTeX to PDF
+    - name: Compile LaTeX document
       run: pdflatex cv.tex
 
-    - name: Upload PDF as Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: cv-pdf
-        path: cv.pdf
-
     - name: Deploy to GitHub Pages
-      if: success()
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./
-        destination_dir: .
-        keep_files: true
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.ACTIONS_DEPLOY_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        git config --global user.email "niloygalib@gmail.com"
+        git config --global user.name "Md Riazul Galib Niloy"
+        git checkout -b gh-pages
+        git add cv.pdf
+        git commit -m "Update CV"
+        git push git@github.com:galib079/md-riazul-galib-cv.git gh-pages --force
