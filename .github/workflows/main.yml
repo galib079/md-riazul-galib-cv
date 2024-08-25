@@ -20,9 +20,13 @@ jobs:
       run: pdflatex cv.tex
 
     - name: Commit and Push PDF
+      env:
+        GIT_USER: "galib079"
+        GIT_EMAIL: "niloygalib@gmail.com"
+        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
-        git config --global user.email "niloygalib@gmail.com"
-        git config --global user.name "galib079"
+        git config --global user.email "${GIT_EMAIL}"
+        git config --global user.name "${GIT_USER}"
         git add cv.pdf
         git commit -m "Update CV"
-        git push
+        git push https://${PAT_TOKEN}@github.com/galib079/md-riazul-galib-cv.git HEAD:main
